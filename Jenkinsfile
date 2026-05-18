@@ -23,6 +23,7 @@ pipeline {
         stage ('Deploy on EC2') {
             steps {
                 sh '''
+		    set -ex
                     docker network inspect the-swagger-net > /dev/null || docker network create the-swagger-net
                     docker stop the-swagger-db the-swagger-api swagger-web
                     docker rm the-swagger-db the-swagger-api swagger-web
