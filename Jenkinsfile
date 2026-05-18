@@ -24,5 +24,5 @@ pipeline {
 }
 
 def buildImage (imageName, dockerfile) {
-    sh "docker build -f ${dockerfile} -t {imageName}:${GIT_COMMIT} ."
+    sh "docker build -f ${dockerfile} -t ${imageName}:${GIT_COMMIT} ."
 }
