@@ -3,17 +3,17 @@ pipeline {
     stages {
         stage ('Build Images') {
             parallel {
-                stage ('Build swagger-db') {
+                stage ('swagger-db') {
                     steps {
                             buildImage('swagger-db', 'Dockerfile.db')
                     }
                 }
-                stage ('Build swagger-api') {
+                stage ('swagger-api') {
                     steps {
                             buildImage('swagger-api', 'Dockerfile.api')
                     }
                 }
-                stage ('Build swagger-web') {
+                stage ('swagger-web') {
                     steps {
                             buildImage('swagger-web', 'Dockerfile.web')
                     }                
