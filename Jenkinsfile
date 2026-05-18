@@ -5,20 +5,30 @@ pipeline {
             parallel {
                 stage ('Build swagger-db') {
                     steps {
-                        sh 'docker build -f Dockerfile.db -t swagger-db:latest .'
+                        sh '''
+                            buildImage('swagger-db', 'Dockerfile.db')
+                        '''
                     }
                 }
                 stage ('Build swagger-api') {
                     steps {
-                        sh 'docker build -f Dockerfile.api -t swagger-api:latest .'
+                        sh '''
+                            buildImage('swagger-api', 'Dockerfile.api')
+                        '''
                     }
                 }
                 stage ('Build swagger-web') {
                     steps {
-                        sh 'docker build -f Dockerfile.web -t swagger-web:latest .' 
+                        sh '''
+                            buildImage('swagger-web', 'Dockerfile.web')
+                        '''
                     }                
                 }
             }
         }
     }
+}
+
+def buildImage (imageName, dockerfile) {
+    sh "docker build -f ${dockerfile} -t {imageName}:${GIT_COMMIT} ."
 }
