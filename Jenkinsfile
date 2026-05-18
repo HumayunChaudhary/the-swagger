@@ -27,7 +27,7 @@ pipeline {
                     docker stop the-swagger-db the-swagger-api swagger-web || true
                     docker rm the-swagger-db the-swagger-api swagger-web || true
                     docker run -d \
-                        --name the-swagger-d \
+                        --name the-swagger-db \
                         --network the-swagger-net \
                         -v postgres_data:/var/lib/postgresql/data \
                         swagger-db:$GIT_COMMIT
