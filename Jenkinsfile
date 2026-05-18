@@ -14,7 +14,9 @@ pipeline {
                     }
                 }
                 stage ('Build swagger-web') {
-                    sh 'docker build -f Dockerfile.web -t swagger-web:latest .'                    
+                    steps {
+                        sh 'docker build -f Dockerfile.web -t swagger-web:latest .' 
+                    }                
                 }
             }
         }
