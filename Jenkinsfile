@@ -24,8 +24,8 @@ pipeline {
             steps {
                 sh '''
                     docker network inspect the-swagger-net > /dev/null || docker network create the-swagger-net
-                    docker stop the-swagger-db the-swagger-api swagger-web
-                    docker rm the-swagger-db the-swagger-api swagger-web
+                    docker stop the-swagger-db the-swagger-api swagger-web || true
+                    docker rm the-swagger-db the-swagger-api swagger-web || true
                     docker run -d \
                         --name the-swagger-d \
                         --network the-swagger-net \
