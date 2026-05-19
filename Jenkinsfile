@@ -41,7 +41,7 @@ pipeline {
                 sh '''
                     docker run --network the-swagger-net \
                     --rm $ECR_REGISTRY/the-swagger:swagger-api-$GIT_COMMIT \
-                    sh -c 'nc -zv $DATABASE_URL 5432'
+                    sh -c 'nc -zv the-swagger-db.ci7k4622k2cg.us-east-1.rds.amazonaws.com 5432'
                 '''
                 }
         }
