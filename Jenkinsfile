@@ -29,7 +29,7 @@ pipeline {
             }
         }
 
-        stage ('Push Images') {
+        stage ('Push Images to ECR') {
             steps {
                 pushImage('swagger-web')
                 pushImage('swagger-api')
