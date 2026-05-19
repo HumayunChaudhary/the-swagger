@@ -5,16 +5,9 @@ pipeline {
         AWS_ACCOUNT_ID = credentials('aws-acount-id')
         AWS_REGION = "us-east-1"
         ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-	DATABASE_URL = credentials('database_url')
+        DATABASE_URL = credentials('database_url')
     }
     stages {
-
-        stage ('Login to ECR') {
-            steps {
-                sh 'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY'
-            }
-        }
-
         stage ('Build Images') {
             parallel {
                 stage ('swagger-api') {
@@ -30,11 +23,27 @@ pipeline {
             }
         }
 
+        stage ('Login to ECR') {
+            steps {
+                sh 'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY'
+            }
+        }
+
         stage ('Push Images to ECR') {
             steps {
                 pushImage('swagger-web')
                 pushImage('swagger-api')
             }
+        }
+
+        stage ('Verify RDS connectivity') {
+            steps {
+                sh '''
+                    docker run --network the-swagger-net \
+                    --rm $ECR_REGISTRY/the-swagger:swagger-api-$GIT_COMMIT \
+                    sh -c 'nc -zv $DATABASE_URL 5432'
+                '''
+                }
         }
         stage ('Deploy on EC2') {
             steps {
@@ -46,7 +55,7 @@ pipeline {
                         --name the-swagger-api \
                         --network the-swagger-net \
                         -e DATABASE_URL="$DATABASE_URL" \
-			-e JWT_SECRET="your-super-secret-jwt-key-change-in-production" \
+                        -e JWT_SECRET="your-super-secret-jwt-key-change-in-production" \
                         -e JWT_EXPIRES_IN="7d" \
                         -e PORT=4200 \
                         -e NODE_ENV=production \
