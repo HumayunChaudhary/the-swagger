@@ -25,7 +25,7 @@ pipeline {
                     docker run -d \
                         --name the-swagger-api \
                         --network the-swagger-net \
-			-e DATABASE_URL="postgresql://postgres:postgres234@the-swagger-db.ci7k4622k2cg.us-east-1.rds.amazonaws.com:5432/the_swagger_dev?schema=public"
+			-e DATABASE_URL="postgresql://postgres:postgres234@the-swagger-db.ci7k4622k2cg.us-east-1.rds.amazonaws.com:5432/the_swagger_dev?schema=public" \
                         -e JWT_SECRET="your-super-secret-jwt-key-change-in-production" \
                         -e JWT_EXPIRES_IN="7d" \
                         -e PORT=4200 \
