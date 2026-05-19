@@ -45,7 +45,7 @@ pipeline {
                     docker run -d \
                         --name the-swagger-api \
                         --network the-swagger-net \
-                        -e DATABASE_URL = $DATABASE_URL \
+                        -e DATABASE_URL = "$DATABASE_URL" \
 			-e JWT_SECRET="your-super-secret-jwt-key-change-in-production" \
                         -e JWT_EXPIRES_IN="7d" \
                         -e PORT=4200 \
