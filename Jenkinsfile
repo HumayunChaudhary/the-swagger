@@ -5,6 +5,7 @@ pipeline {
         AWS_ACCOUNT_ID = credentials('aws-acount-id')
         AWS_REGION = "us-east-1"
         ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+	DATABASE_URL = credentials('database_url')
     }
     stages {
 
@@ -44,8 +45,8 @@ pipeline {
                     docker run -d \
                         --name the-swagger-api \
                         --network the-swagger-net \
-                        -e DATABASE_URL="postgresql://postgres:postgres234@the-swagger-db.ci7k4622k2cg.us-east-1.rds.amazonaws.com:5432/the_swagger_dev?schema=public" \
-                        -e JWT_SECRET="your-super-secret-jwt-key-change-in-production" \
+                        -e DATABASE_URL = $DATABASE_URL \
+			-e JWT_SECRET="your-super-secret-jwt-key-change-in-production" \
                         -e JWT_EXPIRES_IN="7d" \
                         -e PORT=4200 \
                         -e NODE_ENV=production \
