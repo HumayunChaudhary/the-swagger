@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCOUNT_ID = credentials('aws-acount-id')
+        AWS_ACCOUNT_ID = credentials('aws-account-id')
         AWS_REGION = "us-east-1"
         ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         DATABASE_URL = credentials('database_url')
@@ -36,16 +36,16 @@ pipeline {
             }
         }
 
-        stage ('Verify RDS connectivity') {
+   /*  stage ('Verify RDS connectivity') {
             steps {
                 sh '''
                     docker run --network the-swagger-net \
                     --rm $ECR_REGISTRY/the-swagger:swagger-api-$GIT_COMMIT \
-                    sh -c 'nc -zv the-swagger-db.ci7k4622k2cg.us-east-1.rds.amazonaws.com 5432'
+                    sh -c 'nc -zv the-swagger-rds-identifier.ci7k4622k2cg.us-east-1.rds.amazonaws.com 5432'
                 '''
                 }
         }
-        stage ('Deploy on EC2') {
+       stage ('Deploy on EC2') {
             steps {
                 sh '''
                     docker network inspect the-swagger-net > /dev/null || docker network create the-swagger-net
@@ -71,7 +71,7 @@ pipeline {
                         $ECR_REGISTRY/the-swagger:swagger-web-$GIT_COMMIT
                 '''
             }
-        }
+        }  */
     }
 }
 
