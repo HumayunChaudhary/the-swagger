@@ -13,7 +13,7 @@ RUN npm install -g pnpm@latest --quiet
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/.npmrc ./.npmrc
 COPY . .
-ENV API_BASE_URL=http://11.0.0.59:4200
+ENV API_BASE_URL=http://api.the-swagger.internal:4200
 RUN pnpm --filter @the-swagger/web install --frozen-lockfile
 RUN pnpm --filter @the-swagger/shared build 2>/dev/null || true
 RUN pnpm --filter @the-swagger/web build
@@ -24,7 +24,7 @@ RUN apk add --no-cache wget
 ENV NODE_ENV=production
 ENV PORT=4000
 ENV HOSTNAME=0.0.0.0
-ENV API_BASE_URL=http://11.0.0.59:4200
+ENV API_BASE_URL=http://api.the-swagger.internal:4200
 RUN addgroup --system --gid 1001 nodejs \
  && adduser --system --uid 1001 nextjs
 COPY --from=builder /app/apps/web/.next/standalone ./
