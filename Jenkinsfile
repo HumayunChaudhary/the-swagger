@@ -1,4 +1,3 @@
-ubuntu@ip-11-0-0-23:~$ cat the-swagger/Jenkinsfile 
 pipeline {
     agent any
 
