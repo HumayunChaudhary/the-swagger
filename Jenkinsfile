@@ -12,12 +12,12 @@ pipeline {
             parallel {
                 stage ('swagger-api') {
                     steps {
-                            buildImage('swagger-api', 'Dockerfile.api')
+                            buildImage('api', 'Dockerfile.api')
                     }
                 }
                 stage ('swagger-web') {
                     steps {
-                            buildImage('swagger-web', 'Dockerfile.web')
+                            buildImage('web', 'Dockerfile.web')
                     }                
                 }
             }
@@ -31,8 +31,8 @@ pipeline {
 
         stage ('Push Images to ECR') {
             steps {
-                pushImage('swagger-web')
-                pushImage('swagger-api')
+                pushImage('web')
+                pushImage('api')
             }
         }
 
